@@ -102,6 +102,13 @@ async function seedRevenue() {
 }
 
 export async function GET() {
+  // Only run in development
+  if (process.env.NODE_ENV === 'production') {
+    return Response.json(
+      { message: 'Seed route disabled in production' },
+      { status: 403 }
+    );
+  }
   try {
     const result = await sql.begin((sql) => [
       seedUsers(),
