@@ -4,7 +4,8 @@
     "build": "next build",
     "dev": "next dev --turbopack",
     "start": "next start",
-    "prebuild": "npm rebuild bcrypt --update-binary"
+    "prebuild": "npm rebuild bcrypt --update-binary",
+    "seed": "NODE_ENV=development ts-node ./scripts/seed.ts"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

@@ -2,6 +2,11 @@ import bcrypt from 'bcryptjs';
 import postgres from 'postgres';
 import { invoices, customers, revenue, users } from '../lib/placeholder-data';
 
+// Only allow seeding in development
+if (process.env.NODE_ENV === 'production') {
+  throw new Error('Cannot seed in production');
+}
+
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 async function seedUsers() {
@@ -104,10 +109,7 @@ async function seedRevenue() {
 export async function GET() {
   // Only run in development
   if (process.env.NODE_ENV === 'production') {
-    return Response.json(
-      { message: 'Seed route disabled in production' },
-      { status: 403 }
-    );
+    return new Response('Seed route disabled in production', { status: 403 });
   }
   try {
     const result = await sql.begin((sql) => [
